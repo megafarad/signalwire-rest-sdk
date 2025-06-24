@@ -1,5 +1,5 @@
 {
-  "name": "signalwire-rest-sdk",
+  "name": "@sirhc77/signalwire-rest-sdk",
   "version": "0.1.0",
   "description": "An SDK for the SignalWire REST API",
   "main": "dist/index.js",
@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc"
   },
+  "author": "Chris Carrington <chris@megafarad.com> (https://megafarad.com)",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^30.0.0",
@@ -20,5 +21,22 @@
     "axios": "^1.9.0",
     "browser-or-node": "^3.0.0",
     "dotenv": "^16.5.0"
-  }
+  },
+  "keywords": [
+    "signalwire",
+    "signalwire-sdk",
+    "signalwire-rest",
+    "typescript",
+    "api-client",
+    "rest-api",
+    "voice",
+    "sms",
+    "ivr",
+    "webhooks",
+    "http-client",
+    "fetch",
+    "pagination",
+    "programmable-voice",
+    "programmable-sms"
+  ]
 }
