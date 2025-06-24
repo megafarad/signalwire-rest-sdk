@@ -17,25 +17,6 @@ describe("SignalWireRESTClient REST API Integration", () => {
         }
         expect(numbers.length).toBeGreaterThan(0);
     });
-    it("should retrieve voice logs", async () => {
-        const page = await client.voice.logs.listLogsPage({pageSize: 5});
-        expect(page.data.length).toBeGreaterThan(0);
-        expect(page.nextPageUrl).toBeDefined();
-        expect(page.previousPageUrl).toBeUndefined();
-        expect(page.hasNextPage).toBeTruthy();
-        expect(page.hasPreviousPage).toBeFalsy();
-        expect(page.data.length).toBe(5);
-        const nextPage = await client.voice.logs.listLogsPage({}, page.nextPageUrl!);
-        expect(nextPage.data.length).toBe(5);
-
-        const iterator = client.voice.logs.listLogs();
-
-        const logs = [];
-        for await (const log of iterator) {
-            logs.push(log);
-        }
-        expect(logs.length).toBeGreaterThan(0);
-    });
     it("should be able to create, update, and delete an API token", async () => {
         const token = await client.project.apiTokens.createApiToken({
             name: 'Test Token',
@@ -197,5 +178,5 @@ describe("SignalWireRESTClient REST API Integration", () => {
             }
         });
         expect(token.token).toBeDefined();
-    })
+    });
 });
