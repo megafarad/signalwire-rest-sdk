@@ -179,4 +179,28 @@ describe("SignalWireRESTClient REST API Integration", () => {
         });
         expect(token.token).toBeDefined();
     });
+    it("should be able to create, update, retrieve, and delete a datasphere document", async () => {
+        const document = await client.datasphere.documents.createDocument({
+            chunkingStrategy: 'sentence',
+            url: 'https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf',
+            tags: ['test']
+        });
+        expect(document.id).toBeDefined();
+        expect(document.filename).toBe('sample-local-pdf.pdf');
+        expect(document.status).toBe('submitted');
+        expect(document.tags).toEqual(['test']);
+
+        const documentIterator = client.datasphere.documents.listDocuments();
+        const documents = [];
+
+        for await (const document of documentIterator) {
+            documents.push(document);
+        }
+
+        expect(documents.length).toBeGreaterThan(0);
+
+        for (const document of documents) {
+            await client.datasphere.documents.deleteDocument(document.id);
+        }
+    });
 });

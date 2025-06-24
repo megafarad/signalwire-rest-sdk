@@ -177,7 +177,7 @@ export function convertJSONToCallResponse(json: any): CallResponse {
         billableDuration: json.billable_duration,
         source: json.source,
         type: json.type,
-        charge: json.charge.map((chargeJSON: any) => ({
+        chargeDetails: json.charge_details.map((chargeJSON: any) => ({
             description: chargeJSON.description,
             amount: chargeJSON.amount
         })),

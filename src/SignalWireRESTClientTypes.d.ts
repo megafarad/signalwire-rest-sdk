@@ -84,7 +84,7 @@ export interface CallResponse {
     billableDuration: number;
     source: string;
     type: string;
-    charge: CallRequestCharge[];
+    chargeDetails: CallRequestCharge[];
 }
 
 export interface CallsNamespace {
