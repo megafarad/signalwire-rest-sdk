@@ -1,4 +1,5 @@
 import {PagedResponse} from "./PagedResponse";
+import {SWML} from "./SWMLTypes";
 
 export interface CreateCallRequestParamsBase {
     from: string;
@@ -17,7 +18,7 @@ export interface CreateCallRequestUrlParams extends CreateCallRequestParamsBase 
 }
 
 export interface CreateCallRequestSwmlParams extends CreateCallRequestParamsBase {
-    swml: any;
+    swml: SWML;
 }
 
 export interface CreateCallRequestWithUrl extends CreateCallRequestBase {
@@ -48,7 +49,7 @@ export interface UpdateCallRequestUrlParams extends UpdateCallRequestParamsBase 
 }
 
 export interface UpdateCallRequestSwmlParams extends UpdateCallRequestParamsBase {
-    swml: any;
+    swml: SWML;
 }
 
 export interface UpdateCallRequestWithUrl extends UpdateCallRequestBase {
@@ -2132,7 +2133,7 @@ export interface CreateSwmlApplicationRequest {
     callHandlerFallbackMethod?: HTTPMethod;
     callStatusCallbackUrl?: string;
     callStatusCallbackMethod?: HTTPMethod;
-    callHandlerScript?: any;
+    callHandlerScript?: SWML;
 }
 
 export interface UpdateSwmlApplicationRequest {
@@ -2144,7 +2145,7 @@ export interface UpdateSwmlApplicationRequest {
     callHandlerFallbackMethod?: HTTPMethod;
     callStatusCallbackUrl?: string;
     callStatusCallbackMethod?: HTTPMethod;
-    callHandlerScript?: any;
+    callHandlerScript?: SWML;
 }
 
 export interface SwmlApplicationNamespace {
@@ -2819,17 +2820,17 @@ export interface AiAgentsNamespace {
 
 export interface UpdateSwmlScriptRequest {
     name?: string;
-    contents?: any;
+    contents?: SWML;
 }
 
 export interface CreateSwmlScriptRequest {
     name: string;
-    contents: any;
+    contents: SWML;
 }
 
 export interface SwmlScript {
     id: string;
-    contents: any;
+    contents: SWML;
     requestUrl: string;
     displayName: string;
 }

@@ -111,6 +111,7 @@ import {
     CreateConferenceRoomRequest,
     UpdateConferenceRoomRequest, GeneratePubSubTokenRequest,
 } from "./SignalWireRESTClientTypes";
+import {convertJSONToSWML, convertSWMLToJSON} from "./swmlModelConverters";
 
 export function convertCreateCallRequestToJSON(request: CreateCallRequest): any {
     switch (request.type) {
@@ -133,7 +134,7 @@ export function convertCreateCallRequestToJSON(request: CreateCallRequest): any 
                     to: request.params.to,
                     caller_id: request.params.callerId,
                     fallback_url: request.params.fallbackUrl,
-                    swml: request.params.swml,
+                    swml: convertSWMLToJSON(request.params.swml),
                 },
             }
 
@@ -159,7 +160,7 @@ export function convertUpdateCallRequestToJSON(request: UpdateCallRequest): any 
                     id: request.params.id,
                     fallback_url: request.params.fallbackUrl,
                     status: request.params.status,
-                    swml: request.params.swml,
+                    swml: request.params.swml === undefined ? undefined : convertSWMLToJSON(request.params.swml),
                 }
             }
     }
@@ -339,7 +340,7 @@ export function convertJSONToSwmlApplication(json: any): SwmlApplication {
         callHandlerFallbackMethod: json.call_handler_fallback_method,
         callStatusCallbackUrl: json.call_status_callback_url,
         callStatusCallbackMethod: json.call_status_callback_method,
-        callHandlerScript: json.call_handler_script
+        callHandlerScript: json.call_handler_script === undefined ? undefined : convertJSONToSWML(json.call_handler_script)
     }
 }
 
@@ -365,7 +366,7 @@ export function convertCreateSwmlApplicationRequestToJSON(request: CreateSwmlApp
         call_handler_fallback_method: request.callHandlerFallbackMethod,
         call_status_callback_url: request.callStatusCallbackUrl,
         call_status_callback_method: request.callStatusCallbackMethod,
-        call_handler_script: request.callHandlerScript
+        call_handler_script: request.callHandlerScript === undefined ? undefined : convertSWMLToJSON(request.callHandlerScript)
     }
 }
 
@@ -379,7 +380,7 @@ export function convertUpdateSwmlApplicationRequestToJSON(request: UpdateSwmlApp
         call_handler_fallback_method: request.callHandlerFallbackMethod,
         call_status_callback_url: request.callStatusCallbackUrl,
         call_status_callback_method: request.callStatusCallbackMethod,
-        call_handler_script: request.callHandlerScript
+        call_handler_script: request.callHandlerScript === undefined ? undefined : convertSWMLToJSON(request.callHandlerScript)
     }
 }
 
@@ -2571,7 +2572,7 @@ export function convertUpdateAiAgentRequestToJSON(request: UpdateAiAgentRequest)
 export function convertJSONToSwmlScript(json: any): SwmlScript {
     return {
         id: json.id,
-        contents: json.contents,
+        contents: convertJSONToSWML(json.contents),
         requestUrl: json.request_url,
         displayName: json.display_name
     }
