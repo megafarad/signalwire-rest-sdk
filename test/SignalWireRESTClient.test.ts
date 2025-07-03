@@ -60,7 +60,13 @@ describe("SignalWireRESTClient REST API Integration", () => {
                 "sections": {
                     "main": [
                         {
-                            "play": "say:Hello from SignalWire!"
+                            "type": "play",
+                            "play": {
+                                playableSound: {
+                                    type: 'single',
+                                    url: "say:Hello from SignalWire!"
+                                }
+                            }
                         }
                     ]
                 }

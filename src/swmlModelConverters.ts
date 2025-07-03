@@ -1964,7 +1964,7 @@ export function convertJSONObjectToSWMLPlayableSound(json: any): SWMLPlayableSou
 }
 
 export function convertSWMLPlayParametersToJSON(playParameters: SWMLPlayParameters): any {
-    const playJSONObject = convertSWMLPlayableSoundToJSONObject(playParameters.play);
+    const playJSONObject = convertSWMLPlayableSoundToJSONObject(playParameters.playableSound);
     return {
         auto_answer: playParameters.autoAnswer,
         ...playJSONObject,
@@ -1979,7 +1979,7 @@ export function convertSWMLPlayParametersToJSON(playParameters: SWMLPlayParamete
 export function convertJSONToSWMLPlayParameters(json: any): SWMLPlayParameters {
     return {
         autoAnswer: json.auto_answer,
-        play: convertJSONObjectToSWMLPlayableSound(json),
+        playableSound: convertJSONObjectToSWMLPlayableSound(json),
         volume: json.volume,
         sayVoice: json.say_voice,
         sayLanguage: json.say_language,
@@ -2802,13 +2802,17 @@ export function convertSWMLToJSON(swml: SWML): any {
             return tuple;
         })
 
-    return {
+    const json = {
         version: swml.version,
         sections: {
             main: swml.sections.main.map(convertSWMLMethodToJSON),
             ...Object.fromEntries(subroutineEntries),
         },
     }
+
+    console.log(JSON.stringify(json, null, 2));
+
+    return json;
 }
 
 export function convertJSONToSWML(json: any): SWML {

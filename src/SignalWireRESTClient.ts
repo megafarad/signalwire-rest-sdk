@@ -246,6 +246,7 @@ import {
 } from "./modelConverters";
 
 import {defaultMakePagedResponse, PagedResponse} from "./PagedResponse";
+import {convertSWMLToJSON} from "./swmlModelConverters";
 
 export class SignalWireRESTClient {
     readonly spaceManagement: SpaceManagementNamespace;
@@ -2677,7 +2678,7 @@ export class SignalWireRESTClient {
                 async updateSwmlScript(id: string, request: UpdateSwmlScriptRequest): Promise<SwmlScriptResponse> {
                     return self.putRequest(`/api/fabric/resources/swml_scripts/${id}`, request, (request) => ({
                         name: request.name,
-                        contents: request.contents
+                        contents: request.contents === undefined ? undefined : convertSWMLToJSON(request.contents)
                     }), convertJSONToSwmlScriptResponse);
                 },
 
@@ -2690,7 +2691,7 @@ export class SignalWireRESTClient {
                 async createSwmlScript(request: CreateSwmlScriptRequest): Promise<SwmlScriptResponse> {
                     return self.postRequest(`/api/fabric/resources/swml_scripts`, request, (request) => ({
                         name: request.name,
-                        contents: request.contents
+                        contents: convertSWMLToJSON(request.contents)
                     }), convertJSONToSwmlScriptResponse);
                 }
             },

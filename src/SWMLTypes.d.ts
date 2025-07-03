@@ -666,7 +666,7 @@ export type SWMLPlayableSound = SWMLPlayUrl | SWMLPlayUrls;
 
 export interface SWMLPlayParameters {
     autoAnswer?: boolean;
-    play: SWMLPlayableSound;
+    playableSound: SWMLPlayableSound;
     volume?: number;
     sayVoice?: string;
     sayLanguage?: string;
