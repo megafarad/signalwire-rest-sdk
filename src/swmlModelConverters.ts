@@ -134,7 +134,8 @@ import {
     SWMLTransferMethod,
     SWMLTransferParameters,
     SWMLUnsetMethod,
-    SWMLUnsetParameters, SWMLUserEventMethod,
+    SWMLUnsetParameters,
+    SWMLUserEventMethod,
     SWMLUserEventParameters
 } from "./SWMLTypes";
 
@@ -2802,17 +2803,13 @@ export function convertSWMLToJSON(swml: SWML): any {
             return tuple;
         })
 
-    const json = {
+    return {
         version: swml.version,
         sections: {
             main: swml.sections.main.map(convertSWMLMethodToJSON),
             ...Object.fromEntries(subroutineEntries),
         },
-    }
-
-    console.log(JSON.stringify(json, null, 2));
-
-    return json;
+    };
 }
 
 export function convertJSONToSWML(json: any): SWML {
