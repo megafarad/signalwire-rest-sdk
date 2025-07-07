@@ -249,17 +249,17 @@ import {defaultMakePagedResponse, PagedResponse} from "./PagedResponse";
 import {convertSWMLToJSON} from "./swmlModelConverters";
 
 export class SignalWireRESTClient {
-    readonly spaceManagement: SpaceManagementNamespace;
-    readonly video: VideoNamespace;
-    readonly message: MessageNamespace;
-    readonly voice: VoiceNamespace;
-    readonly fax: FaxNamespace;
-    readonly project: ProjectNamespace;
-    readonly chat: ChatNamespace;
-    readonly fabric: FabricNamespace;
-    readonly calling: CallingNamespace;
-    readonly datasphere: DatasphereNamespace;
-    readonly pubsub: PubSubNamespace;
+    public readonly spaceManagement: SpaceManagementNamespace;
+    public readonly video: VideoNamespace;
+    public readonly message: MessageNamespace;
+    public readonly voice: VoiceNamespace;
+    public readonly fax: FaxNamespace;
+    public readonly project: ProjectNamespace;
+    public readonly chat: ChatNamespace;
+    public readonly fabric: FabricNamespace;
+    public readonly calling: CallingNamespace;
+    public readonly datasphere: DatasphereNamespace;
+    public readonly pubsub: PubSubNamespace;
     private readonly username: string
     private readonly password: string
     private readonly axiosInstance: AxiosInstance
