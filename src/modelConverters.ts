@@ -31,10 +31,8 @@ import {
     CallFlowVersion,
     AiAgentResponse,
     AiAgent,
-    AiAgentPromptBase,
     ContextStep,
     AiAgentPromptContextsBase,
-    AiAgentPostPromptBase,
     AiAgentParams,
     Pronounce,
     Language,
@@ -109,7 +107,12 @@ import {
     ConferenceRoom,
     ConferenceRoomResponse,
     CreateConferenceRoomRequest,
-    UpdateConferenceRoomRequest, GeneratePubSubTokenRequest,
+    UpdateConferenceRoomRequest,
+    GeneratePubSubTokenRequest,
+    AiAgentPostPrompt,
+    AiAgentPrompt,
+    AiAgentPromptContexts,
+    CreateAiAgentPromptRequest, CreateAiAgentPostPromptRequest,
 } from "./SignalWireRESTClientTypes";
 import {convertJSONToSWML, convertSWMLToJSON} from "./swmlModelConverters";
 
@@ -1646,7 +1649,7 @@ export function convertJSONToContextStep(json: any): ContextStep {
 }
 
 
-export function convertJSONToAiAgentPromptBase(json: any): AiAgentPromptBase | undefined {
+export function convertJSONToAiAgentPrompt(json: any): AiAgentPrompt | undefined {
     if (json) {
         const contextsEntries: [string, { steps: ContextStep[] }][] | undefined = json.contexts ?
             Object.entries<any>(json.contexts)
@@ -1671,7 +1674,7 @@ export function convertJSONToAiAgentPromptBase(json: any): AiAgentPromptBase | u
         const defaultContextsObject = defaultContext ? {default: defaultContext}
             : undefined;
 
-        const contexts: AiAgentPromptContextsBase | undefined = defaultContextsObject ? {
+        const contexts: AiAgentPromptContexts | undefined = defaultContextsObject ? {
             ...defaultContextsObject,
             ...contextsObject
         } : undefined
@@ -1690,7 +1693,7 @@ export function convertJSONToAiAgentPromptBase(json: any): AiAgentPromptBase | u
     }
 }
 
-export function convertJSONToAiAgentPostPromptBase(json: any): AiAgentPostPromptBase | undefined {
+export function convertJSONToAiAgentPostPrompt(json: any): AiAgentPostPrompt | undefined {
     if (json) {
         return {
             text: json.text,
@@ -2082,8 +2085,8 @@ export function convertJSONToAiAgent(json: any): AiAgent {
     return {
         id: json.id,
         name: json.name,
-        prompt: convertJSONToAiAgentPromptBase(json.prompt),
-        postPrompt: convertJSONToAiAgentPostPromptBase(json.post_prompt),
+        prompt: convertJSONToAiAgentPrompt(json.prompt),
+        postPrompt: convertJSONToAiAgentPostPrompt(json.post_prompt),
         params: convertJSONToAiAgentParams(json.params),
         pronounce: convertJSONToAiAgentPronounce(json.pronounce),
         hints: Array.isArray(json.hints) ? json.hints : undefined,
@@ -2127,7 +2130,7 @@ export function convertAiAgentPromptContextsBaseToJSON(contexts: AiAgentPromptCo
     return Object.fromEntries(contextsEntries);
 }
 
-export function convertAiAgentPromptBaseToJSON(prompt: AiAgentPromptBase): any {
+export function convertCreateAiAgentPromptRequestToJSON(prompt: CreateAiAgentPromptRequest): any {
     return {
         text: prompt.text,
         temperature: prompt.temperature,
@@ -2140,7 +2143,7 @@ export function convertAiAgentPromptBaseToJSON(prompt: AiAgentPromptBase): any {
     }
 }
 
-export function convertAiAgentPostPromptBaseToJSON(postPrompt: AiAgentPostPromptBase): any {
+export function convertCreateAiAgentPostPromptRequestToJSON(postPrompt: CreateAiAgentPostPromptRequest): any {
     return {
         text: postPrompt.text,
         temperature: postPrompt.temperature,
@@ -2499,8 +2502,8 @@ export function convertCreateAiAgentRequestToJSON(request: CreateAiAgentRequest)
 
     return {
         name: request.name,
-        prompt: request.prompt ? convertAiAgentPromptBaseToJSON(request.prompt) : undefined,
-        post_prompt: request.postPrompt ? convertAiAgentPostPromptBaseToJSON(request.postPrompt) : undefined,
+        prompt: request.prompt ? convertCreateAiAgentPromptRequestToJSON(request.prompt) : undefined,
+        post_prompt: request.postPrompt ? convertCreateAiAgentPostPromptRequestToJSON(request.postPrompt) : undefined,
         params: request.params ? convertAiAgentParamsToJSON(request.params) : undefined,
         pronounce: request.pronounce ? convertPronounceToJSON(request.pronounce) : undefined,
         hints: request.hints,

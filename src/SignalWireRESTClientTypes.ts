@@ -1830,8 +1830,6 @@ export interface FabricResourceBase {
     id: string;
     projectId: string;
     displayName: string;
-    type: 'ai_agent' | 'call_flow' | 'dialogflow_agent' | 'sip_endpoint' | 'subscriber' | 'freeswitch_connector' |
-        'relay_application' | 'swml_script';
     createdAt: string;
     updatedAt: string;
 }
@@ -2629,7 +2627,7 @@ export interface SWAIGWebhook {
     expressions: {
         expressions: SWAIGExpression[];
     }[];
-    errorKeys: ? string | string[];
+    errorKeys: string | string[] | null | undefined;
     url: string;
     foreach?: {
         inputKey: string;
@@ -2682,10 +2680,6 @@ export interface SWAIGFunction {
 }
 
 export interface AiAgentPromptContextsBase {
-    default: {
-        steps: ContextStep[];
-    }
-
     [name: string]: {
         steps: ContextStep[];
     }
@@ -2693,7 +2687,6 @@ export interface AiAgentPromptContextsBase {
 
 
 export interface AiAgentPromptBase {
-    text: string;
     temperature?: number;
     topP?: number;
     confidence?: number;
@@ -2702,10 +2695,28 @@ export interface AiAgentPromptBase {
     contexts?: AiAgentPromptContextsBase
 }
 
-export interface UpdateAiAgentPromptContexts extends AiAgentPromptContextsBase {
-    default?: {
+export interface AiAgentPromptContexts extends AiAgentPromptContextsBase {
+    default: {
         steps: ContextStep[];
-    };
+    }
+}
+
+export interface CreateAiAgentPromptContexts extends AiAgentPromptContextsBase {
+    default: {
+        steps: ContextStep[];
+    }
+}
+
+export type UpdateAiAgentPromptContexts = AiAgentPromptContextsBase;
+
+export interface AiAgentPrompt extends AiAgentPromptBase {
+    text: string;
+    contexts?: AiAgentPromptContexts;
+}
+
+export interface CreateAiAgentPromptRequest extends AiAgentPromptBase {
+    text: string;
+    contexts?: CreateAiAgentPromptContexts;
 }
 
 export interface UpdateAiAgentPromptRequest extends AiAgentPromptBase {
@@ -2714,12 +2725,19 @@ export interface UpdateAiAgentPromptRequest extends AiAgentPromptBase {
 }
 
 export interface AiAgentPostPromptBase {
-    text: string;
     temperature?: number;
     topP?: number;
     confidence?: number;
     presencePenalty?: number;
     frequencyPenalty?: number;
+}
+
+export interface AiAgentPostPrompt extends AiAgentPostPromptBase {
+    text: string;
+}
+
+export interface CreateAiAgentPostPromptRequest extends AiAgentPostPromptBase {
+    text: string;
 }
 
 export interface UpdateAiAgentPostPromptRequest extends AiAgentPostPromptBase {
@@ -2766,7 +2784,6 @@ export interface AiAgentParams {
 }
 
 export interface AiAgentBase {
-    name: string;
     prompt?: AiAgentPromptBase;
     postPrompt?: AiAgentPostPromptBase;
     params?: AiAgentParams;
@@ -2785,9 +2802,16 @@ export interface AiAgentBase {
 
 export interface AiAgent extends AiAgentBase {
     id: string;
+    name: string;
+    prompt?: AiAgentPrompt;
+    postPrompt?: AiAgentPostPrompt;
 }
 
-export type CreateAiAgentRequest = AiAgentBase;
+export interface CreateAiAgentRequest extends AiAgentBase {
+    name: string;
+    prompt?: CreateAiAgentPromptRequest;
+    postPrompt?: CreateAiAgentPostPromptRequest;
+}
 
 export interface UpdateAiAgentRequest extends AiAgentBase {
     name?: string;
@@ -3148,7 +3172,7 @@ export interface ConferenceRoomResponse extends FabricResourceBase {
     type: 'video_room';
     conferenceRoom: ConferenceRoom;
 }
-``
+
 export interface CreateConferenceRoomRequest {
     displayName?: string;
     maxMembers?: number;

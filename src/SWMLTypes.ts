@@ -281,9 +281,9 @@ export interface SWMLSWAIGFunction {
     fillers?: SWMLSWAIGFunctionFillers;
     metaData?: object;
     metaDataToken?: string;
-    waitFile: ? string;
-    waitFileLoops: ? string | number;
-    waitForFillers: ? boolean;
+    waitFile: string | null | undefined;
+    waitFileLoops: string | number | null | undefined;
+    waitForFillers: boolean | null | undefined;
     webHookUrl?: string;
 }
 
@@ -632,7 +632,7 @@ export interface SWMLPayParameters {
     chargeAmount: string;
     currency?: string;
     description?: string;
-    input:? 'dtmf';
+    input: "dtmf" | null | undefined;
     language?: string;
     maxAttempts?: number;
     minPostalCodeLength?: number;
@@ -713,7 +713,7 @@ export interface SWMLReceiveFaxMethod {
 export interface SWMLRecordParameters {
     stereo?: boolean;
     format?: 'wav' | 'mp3';
-    direction:? 'speak' | 'listen';
+    direction: "speak" | "listen" | null | undefined;
     terminators?: string[];
     beep?: boolean;
     inputSensitivity?: number;
