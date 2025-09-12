@@ -304,7 +304,7 @@ export interface VerifiedCallerIdsNamespace {
 
     retrieveVerifiedCallerId(id: string): Promise<VerifiedCallerId>;
 
-    updateVerifiedCallerId(id: string, request: UpdateVerifiedCallerIdRequest): Promise<any>;
+    updateVerifiedCallerId(id: string, request: UpdateVerifiedCallerIdRequest): Promise<VerifiedCallerId>;
 
     deleteVerifiedCallerId(id: string): Promise<void>;
 }
@@ -1393,7 +1393,7 @@ export interface VideoRoomToken {
 }
 
 export interface VideoRoomTokensNamespace {
-    generateNewVideoRoomToken(request: VideoRoomTokenRequest): Promise<any>;
+    generateNewVideoRoomToken(request: VideoRoomTokenRequest): Promise<VideoRoomToken>;
 }
 
 export interface ListRecordingsForVideoRoomOptions {
@@ -1411,9 +1411,9 @@ export interface VideoRoomRecordingsNamespace {
 
     listRecordingsForRoomPage(options?: ListRecordingsForVideoRoomOptions, url?: string): Promise<PagedResponse<VideoRoomRecording>>;
 
-    retrieveRecording(recordingId: string, options?: RetrieveVideoRoomRecordingOptions): Promise<any>;
+    retrieveRecording(recordingId: string, options?: RetrieveVideoRoomRecordingOptions): Promise<VideoRoomRecording>;
 
-    deleteRoomRecording(recordingId: string): Promise<any>;
+    deleteRoomRecording(recordingId: string): Promise<void>;
 }
 
 export interface VideoRoomStream {
@@ -1683,7 +1683,7 @@ export interface VoiceLogsNamespace {
 
     listLogsPage(options?: VoiceLogsListLogsOptions, url?: string): Promise<PagedResponse<VoiceLog>>;
 
-    retrieveLog(voiceLogId: string): Promise<any>;
+    retrieveLog(voiceLogId: string): Promise<VoiceLog>;
 }
 
 export interface VoiceNamespace {
@@ -2835,11 +2835,11 @@ export interface AiAgentsNamespace {
 
     listAddressesForAiAgentPage(id: string, url?: string): Promise<PagedResponse<FabricResourceAddress>>;
 
-    updateAiAgent(id: string, request: UpdateAiAgentRequest): Promise<any>;
+    updateAiAgent(id: string, request: UpdateAiAgentRequest): Promise<AiAgentResponse>;
 
-    deleteAiAgent(id: string): Promise<any>;
+    deleteAiAgent(id: string): Promise<void>;
 
-    createAiAgent(request: CreateAiAgentRequest): Promise<any>;
+    createAiAgent(request: CreateAiAgentRequest): Promise<AiAgentResponse>;
 }
 
 export interface UpdateSwmlScriptRequest {
