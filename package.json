@@ -1,6 +1,6 @@
 {
   "name": "@sirhc77/signalwire-rest-sdk",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "An SDK for the SignalWire REST API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
