@@ -214,7 +214,6 @@ describe("SignalWireRESTClient REST API Integration", () => {
         const numbers: PhoneNumber[] = []
         const numbersIterator = client.spaceManagement.phoneNumbers.listAllPhoneNumbers();
         for await (const number of numbersIterator) {
-            console.log(number);
             numbers.push(number);
         }
         expect(numbers.length).toBeGreaterThan(0);
@@ -227,6 +226,6 @@ describe("SignalWireRESTClient REST API Integration", () => {
         });
 
         const updatedPhoneNumber = await client.spaceManagement.phoneNumbers.retrievePhoneNumber(numbers[0].id);
-        console.log(updatedPhoneNumber);
+        expect(updatedPhoneNumber.name).toBe('Updated Phone Number');
     });
 });
