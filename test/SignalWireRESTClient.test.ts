@@ -1,4 +1,4 @@
-import {SignalWireRESTClient, SwmlScriptResponse} from "../src";
+import {PhoneNumber, SignalWireRESTClient, SwmlScriptResponse} from "../src";
 
 const client = new SignalWireRESTClient(
     process.env.SIGNALWIRE_SPACE!,
@@ -117,7 +117,7 @@ describe("SignalWireRESTClient REST API Integration", () => {
 
     });
 
-    it ("should be able to get fabric addresses", async () => {
+    it("should be able to get fabric addresses", async () => {
         const token = await client.fabric.subscribers.createSubscriberToken({
             reference: 'username@example.com'
         });
@@ -131,42 +131,42 @@ describe("SignalWireRESTClient REST API Integration", () => {
     });
 
     it("should be able to create, update, delete, and retrieve a swml webhook", async () => {
-       const swmlWebhookResponse = await client.fabric.swmlWebhooks.createSwmlWebhook({
-           primaryRequestUrl: "https://example.com/swml-webhook",
-       });
-       expect(swmlWebhookResponse.id).toBeDefined();
-       const iterator = client.fabric.swmlWebhooks.listSwmlWebhooks();
+        const swmlWebhookResponse = await client.fabric.swmlWebhooks.createSwmlWebhook({
+            primaryRequestUrl: "https://example.com/swml-webhook",
+        });
+        expect(swmlWebhookResponse.id).toBeDefined();
+        const iterator = client.fabric.swmlWebhooks.listSwmlWebhooks();
 
-       const swmlWebhookResponses = [];
-       for await (const swmlWebhook of iterator) {
-           swmlWebhookResponses.push(swmlWebhook);
-       }
-       expect(swmlWebhookResponses.length).toBeGreaterThan(0);
-       expect(swmlWebhookResponses.find(swmlWebhook => swmlWebhook.id === swmlWebhookResponse.id)).toBeDefined();
-       const retrievedSwmlWebhookResponse = await client.fabric.swmlWebhooks.retrieveSwmlWebhook(swmlWebhookResponse.id);
-       expect(retrievedSwmlWebhookResponse.id).toBeDefined();
-       const updatedSwmlWebhookResponse = await client.fabric.swmlWebhooks.updateSwmlWebhook(swmlWebhookResponse.id, {
-           name: "Updated Swml Webhook"
-       });
-       expect(updatedSwmlWebhookResponse.swmlWebhook.name).toBe("Updated Swml Webhook");
+        const swmlWebhookResponses = [];
+        for await (const swmlWebhook of iterator) {
+            swmlWebhookResponses.push(swmlWebhook);
+        }
+        expect(swmlWebhookResponses.length).toBeGreaterThan(0);
+        expect(swmlWebhookResponses.find(swmlWebhook => swmlWebhook.id === swmlWebhookResponse.id)).toBeDefined();
+        const retrievedSwmlWebhookResponse = await client.fabric.swmlWebhooks.retrieveSwmlWebhook(swmlWebhookResponse.id);
+        expect(retrievedSwmlWebhookResponse.id).toBeDefined();
+        const updatedSwmlWebhookResponse = await client.fabric.swmlWebhooks.updateSwmlWebhook(swmlWebhookResponse.id, {
+            name: "Updated Swml Webhook"
+        });
+        expect(updatedSwmlWebhookResponse.swmlWebhook.name).toBe("Updated Swml Webhook");
 
-       const addressesIterator = client.fabric.swmlWebhooks.listSwmlWebhookAddresses(updatedSwmlWebhookResponse.id);
-       const addresses = [];
-       for await (const address of addressesIterator) {
-           addresses.push(address);
-       }
+        const addressesIterator = client.fabric.swmlWebhooks.listSwmlWebhookAddresses(updatedSwmlWebhookResponse.id);
+        const addresses = [];
+        for await (const address of addressesIterator) {
+            addresses.push(address);
+        }
 
-       expect(addresses.length).toBeGreaterThan(0);
+        expect(addresses.length).toBeGreaterThan(0);
 
-       await client.fabric.swmlWebhooks.deleteSwmlWebhook(swmlWebhookResponse.id);
-       const missingSwmlWebhookIterator = client.fabric.swmlWebhooks.listSwmlWebhooks();
-       let missingSwmlWebhook = false;
-       for await (const swmlWebhook of missingSwmlWebhookIterator) {
-           if (swmlWebhook.id === swmlWebhookResponse.id) {
-               missingSwmlWebhook = true;
-           }
-       }
-       expect(missingSwmlWebhook).toBeFalsy();
+        await client.fabric.swmlWebhooks.deleteSwmlWebhook(swmlWebhookResponse.id);
+        const missingSwmlWebhookIterator = client.fabric.swmlWebhooks.listSwmlWebhooks();
+        let missingSwmlWebhook = false;
+        for await (const swmlWebhook of missingSwmlWebhookIterator) {
+            if (swmlWebhook.id === swmlWebhookResponse.id) {
+                missingSwmlWebhook = true;
+            }
+        }
+        expect(missingSwmlWebhook).toBeFalsy();
     });
 
     it("should be able to generate a pubsub token", async () => {
@@ -208,5 +208,25 @@ describe("SignalWireRESTClient REST API Integration", () => {
         for (const document of documents) {
             await client.datasphere.documents.deleteDocument(document.id);
         }
+    });
+
+    it("should be able to get and update existing phone numbers", async () => {
+        const numbers: PhoneNumber[] = []
+        const numbersIterator = client.spaceManagement.phoneNumbers.listAllPhoneNumbers();
+        for await (const number of numbersIterator) {
+            console.log(number);
+            numbers.push(number);
+        }
+        expect(numbers.length).toBeGreaterThan(0);
+        await client.spaceManagement.phoneNumbers.updatePhoneNumber(numbers[0].id, {
+            name: 'Updated Phone Number',
+            callHandler: {
+                type: 'relay_context',
+                callRelayContext: 'KageKage',
+            }
+        });
+
+        const updatedPhoneNumber = await client.spaceManagement.phoneNumbers.retrievePhoneNumber(numbers[0].id);
+        console.log(updatedPhoneNumber);
     });
 });

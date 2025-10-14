@@ -836,7 +836,7 @@ export interface RelayTopicPhoneNumberCallHandler {
 export interface RelayContextPhoneNumberCallHandler {
     type: 'relay_context';
     callRelayContext: string;
-    callRelayContextStatusCallbackUrl: string;
+    callRelayContextStatusCallbackUrl?: string;
 }
 
 export interface RelayApplicationPhoneNumberCallHandler {
@@ -915,7 +915,7 @@ export type PhoneNumberMessageHandler =
     | LamlApplicationPhoneNumberMessageHandler;
 
 export interface UpdatePhoneNumberRequest {
-    name: string;
+    name?: string;
     callReceiveMode?: CallReceiveMode;
     callHandler?: PhoneNumberCallHandler;
     messageHandler?: PhoneNumberMessageHandler;
