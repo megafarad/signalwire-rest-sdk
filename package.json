@@ -10,6 +10,10 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/megafarad/signalwire-rest-sdk.git"
+  },
   "scripts": {
     "build": "tsc"
   },
