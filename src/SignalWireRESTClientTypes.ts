@@ -797,7 +797,7 @@ export interface ListAllPhoneNumbersOptions {
 
 export type PhoneNumberListingType = 'local' | 'toll-free';
 
-export type PhoneNumberType = 'longcode' | 'toll-free';
+export type PhoneNumberType = 'longcode' | 'tollfree';
 
 export type CallReceiveMode = 'voice' | 'fax';
 
